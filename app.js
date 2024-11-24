@@ -8,11 +8,9 @@ ffmpeg.setFfmpegPath('/opt/homebrew/bin/ffmpeg');
 ffmpeg.setFfprobePath('/opt/homebrew/bin/ffprobe');
 require('dotenv').config();
 
-
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.use("/videos", authMiddleware, videoRoutes);
 app.use((err, req, res, next) => {

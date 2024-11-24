@@ -1,4 +1,5 @@
 const { uploadToS3, generatePresignedUrl, downloadFromS3 } = require('../../utils/s3.util'); // Adjust path to your utils
+const fs = require('node:fs');
 
 jest.mock('aws-sdk', () => ({
     S3: jest.fn(() => ({
@@ -52,6 +53,15 @@ jest.mock('fs', () => ({
 }));
 
 describe('S3 Helper Functions', () => {
+    afterAll(() => {
+        fs.unlinkSync('test.txt');
+        fs.unlinkSync('test-download.txt');
+    });
+
+    beforeAll(() => {
+        fs.writeFileSync('test.txt', 'This is a dummy content for testing.', 'utf-8');
+    });
+
     it('Should upload a file to S3', async () => {
         const bucket = 'test-bucket';
         const key = 'test-key';
